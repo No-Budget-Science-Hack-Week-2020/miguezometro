@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup as bsoup
 
 # %%
 def parse_page(url):
-  """Utilitário que simplesmente pega a página e extrai todo o html dela."""
+    """Utilitário que simplesmente pega a página e extrai todo o html dela."""
     response = requests.get(url)
     parsed_response = bsoup(response.content, parser="html.parser")
 
@@ -16,10 +16,10 @@ def parse_page(url):
 
 # %%
 def get_oldest_issue(id):
-  """Retorna o link da edição mais antiga de um journal presente no scielo a partir do id do journal.
-  
-  Essa ainda é a função mais propensa ao erro - visto que, por alguma razão, 
-  o scielo possui mais de um domínio. Estou ajustando várias coisas."""
+    """Retorna o link da edição mais antiga de um journal presente no scielo a partir do id do journal.
+
+    Essa ainda é a função mais propensa ao erro - visto que, por alguma razão, 
+    o scielo possui mais de um domínio. Estou ajustando várias coisas."""
 
     # CSS Path da tabela das edições:
     # .content > table:nth-child(3) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > table:nth-child(2)
@@ -46,6 +46,12 @@ def get_oldest_issue(id):
         except:
             print(f"Não consegui raspar o journal {id}!")
 
+        else:
+
+            issues_links = [a["href"] for a in anchors]
+
+            return issues_links[-1]
+
     else:
 
         issues_links = [a["href"] for a in anchors]
@@ -55,11 +61,11 @@ def get_oldest_issue(id):
 
 # %%
 def get_all_articles_from_issue(issue_url):
-  """Retorna o texto bruto (html) de todos os artigos de uma dada edição
-  
-  Retorna uma dataframe no molde "link para o artigo // texto do artigo", o que
-  pode ser útil para análises posteriores.
-  """
+    """Retorna o texto bruto (html) de todos os artigos de uma dada edição
+
+    Retorna uma dataframe no molde "link para o artigo // texto do artigo", o que
+    pode ser útil para análises posteriores.
+    """
 
     issue_page_parsed = parse_page(issue_url).find_all("a", string="text in  English")
 
@@ -91,3 +97,6 @@ texto = get_all_articles_from_issue(oldest_issue)
 # 1415-4757
 oldest_issue = get_oldest_issue("1415-4757")
 texto = get_all_articles_from_issue(oldest_issue)
+
+
+# %%
