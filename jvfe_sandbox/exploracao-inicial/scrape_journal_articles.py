@@ -78,11 +78,10 @@ def get_all_articles_from_issue(issue_url):
             text.append([article, article_text])
         except:
             pass
-        finally:
-            result_df = pd.DataFrame.from_records(
-                text, columns=["article_link", "text"]
-            )
-            return result_df
+
+    result_df = pd.DataFrame.from_records(text, columns=["article_link", "text"])
+
+    return result_df
 
 
 # %%
