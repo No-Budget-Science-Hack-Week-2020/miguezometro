@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
-# %%
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup as bsoup
 
-# %%
+
 def parse_page(url):
     """Utilitário que simplesmente pega a página e extrai todo o html dela."""
     response = requests.get(url)
@@ -14,7 +13,6 @@ def parse_page(url):
     return parsed_response
 
 
-# %%
 def get_oldest_issue(id):
     """Retorna o link da edição mais antiga de um journal presente no scielo a partir do id do journal.
 
@@ -23,6 +21,8 @@ def get_oldest_issue(id):
 
     # CSS Path da tabela das edições:
     # .content > table:nth-child(3) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > table:nth-child(2)
+
+    # Isso tá muito ineficiente. Pode ser melhorado bastante.
 
     try:
         url = f"https://www.scielo.br/scielo.php?script=sci_issues&pid={id}&lng=en&nrm=iso"
@@ -59,7 +59,6 @@ def get_oldest_issue(id):
         return issues_links[-1]
 
 
-# %%
 def get_all_articles_from_issue(issue_url):
     """Retorna o texto bruto (html) de todos os artigos de uma dada edição
 
@@ -84,18 +83,36 @@ def get_all_articles_from_issue(issue_url):
     return result_df
 
 
-# %%
+def extract_links(dataframe_with_texts, column="text"):
+    """ Extrai links de uma coluna de dataframe contendo informação
+    textual."""
 
-### TESTES ###
+    df = dataframe_with_texts.copy(deep=True)
 
-# 0120-548X
-oldest_issue = get_oldest_issue("0120-548X")
-texto = get_all_articles_from_issue(oldest_issue)
+    # Isso tá ineficiente, pode ser melhorado. Bastante.
 
-# %%
-# 1415-4757
-oldest_issue = get_oldest_issue("1415-4757")
-texto = get_all_articles_from_issue(oldest_issue)
+    df["links"] = df["text"].apply(
+        lambda x: [
+            a["href"]
+            for a in bsoup(str(x), parser="html.parser").find_all("a", href=True)
+        ]
+    )
+
+    # Mantendo apenas urls únicas
+    df = df.explode("links").drop_duplicates(subset=["links"])
+
+    # Filtrando apenas urls "verdadeiras",
+    # sem contar emails e outras coisas contidas em hrefs
+    df = df[df["links"].str.contains("http")].reset_index(drop=True)
+
+    return df
 
 
-# %%
+def test_if_link_works(url):
+
+    try:
+        requests.get(url)
+    except:
+        return False
+    else:
+        return True
