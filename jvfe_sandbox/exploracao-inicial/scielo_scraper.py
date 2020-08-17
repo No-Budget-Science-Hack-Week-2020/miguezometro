@@ -13,50 +13,48 @@ def parse_page(url):
     return parsed_response
 
 
-def get_oldest_issue(id):
-    """Retorna o link da edição mais antiga de um journal presente no scielo a partir do id do journal.
-
-    Essa ainda é a função mais propensa ao erro - visto que, por alguma razão, 
-    o scielo possui mais de um domínio. Estou ajustando várias coisas."""
+def return_issue_numbers(url):
+    """Retorna o link da edição mais antiga de um journal presente no scielo a partir de uma url"""
 
     # CSS Path da tabela das edições:
     # .content > table:nth-child(3) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > table:nth-child(2)
 
-    # Isso tá muito ineficiente. Pode ser melhorado bastante.
-
     try:
-        url = f"https://www.scielo.br/scielo.php?script=sci_issues&pid={id}&lng=en&nrm=iso"
 
         journal_issue_table = parse_page(url)
 
         anchors = journal_issue_table.select_one(
             ".content > table:nth-child(3) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > table:nth-child(2)"
         ).select("a[href]")
-    except:
-        print("Vou tentar outra url base...")
 
-        try:
-            url = f"http://www.scielo.org.co/scielo.php?script=sci_issues&pid={id}&lng=en&nrm=iso"
-
-            journal_issue_table = parse_page(url)
-
-            anchors = journal_issue_table.select_one(
-                ".content > table:nth-child(3) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > table:nth-child(2)"
-            ).select("a[href]")
-        except:
-            print(f"Não consegui raspar o journal {id}!")
-
-        else:
-
-            issues_links = [a["href"] for a in anchors]
-
-            return issues_links[-1]
+    except Exception:
+        raise Exception(f"Não consegui raspar o journal {url}!")
 
     else:
 
         issues_links = [a["href"] for a in anchors]
 
         return issues_links[-1]
+
+
+def get_oldest_issue(id):
+    """Retorna o link da edição mais antiga de um journal presente no scielo a partir do id do journal.
+
+    Essa ainda é a função mais propensa ao erro - visto que, por alguma razão, 
+    o scielo possui mais de um domínio. Estou ajustando várias coisas."""
+
+    try:
+        url = f"https://www.scielo.br/scielo.php?script=sci_issues&pid={id}&lng=en&nrm=iso"
+
+        return return_issue_numbers(url)
+
+    except Exception:
+
+        print("Vou tentar outra url base...")
+
+        url = f"http://www.scielo.org.co/scielo.php?script=sci_issues&pid={id}&lng=en&nrm=iso"
+
+        return return_issue_numbers(url)
 
 
 def get_all_articles_from_issue(issue_url):
@@ -111,8 +109,11 @@ def extract_links(dataframe_with_texts, column="text"):
 def test_if_link_works(url):
 
     try:
-        requests.get(url)
+        response = requests.get(url)
     except:
         return False
     else:
-        return True
+        if response.status_code != requests.codes.ok:
+            return False
+        else:
+            return True
