@@ -11,11 +11,14 @@ from scielo_scraper import (
 import pandas as pd
 
 # %%
+# Lendo a lista total de journals extraída por Thayne
 journals_list = pd.read_csv("../data/journals_cienciabio.csv", index_col=0)
 
 # %%
+# Filtrando apenas os journals brasileiros
 so_br = journals_list[journals_list["revista brasileira?"] == "sim"].copy()
 # %%
+# Para cada journal na lista, extraímos os dados
 df_list = []
 for identificador in so_br["identificador"]:
 
@@ -30,9 +33,11 @@ for identificador in so_br["identificador"]:
         pass
 
 # %%
+# Juntamos todos os dados extraídos numa única dataframe
 full_dataframe_brjournals = pd.concat(df_list)
 
 # %%
+# Dividimos o dado em diversos CSVs, no sentido de facilitar a colaboração.
 for journal in set(full_dataframe_brjournals["journal"]):
 
     journal_df = full_dataframe_brjournals[
