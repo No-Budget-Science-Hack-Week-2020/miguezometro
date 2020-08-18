@@ -12,7 +12,7 @@
 
 * Criando o ambiente a partir do arquivo nobudgetsci-migue.yml, digite no seu terminal:
 
-```conda env create -f environment.yml```
+```conda env create -f nobudgetsci-migue.yml```
 
 * Uma vez instalado, ative o ambiente:
 
