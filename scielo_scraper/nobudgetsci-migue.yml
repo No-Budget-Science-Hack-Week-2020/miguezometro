@@ -89,4 +89,3 @@ dependencies:
   - xz=5.2.5=h516909a_1
   - zeromq=4.3.2=he1b5a44_3
   - zlib=1.2.11=h516909a_1007
-prefix: /home/jvfe/miniconda3/envs/nobudgetsci-migue
