@@ -16,6 +16,6 @@
 
 * Uma vez instalado, ative o ambiente:
 
-```conda activate nobudgetsci-tweets```
+```conda activate nobudgetsci-migue```
 
 * Entre no script `src/journal_data_extraction.py` e siga os passos descritos.
