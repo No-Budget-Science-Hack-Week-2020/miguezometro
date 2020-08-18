@@ -34,7 +34,7 @@ def return_issue_numbers(url):
 
         issues_links = [a["href"] for a in anchors]
 
-        return issues_links[-1]
+        return issues_links
 
 
 def get_oldest_issue(id):
@@ -52,7 +52,7 @@ def get_oldest_issue(id):
 
         print("Vou tentar outra url base...")
 
-        url = f"http://www.scielo.org.co/scielo.php?script=sci_issues&pid={id}&lng=en&nrm=iso"
+        url = f"http://pepsic.bvsalud.org/scielo.php?script=sci_issues&pid={id}&lng=en&nrm=iso"
 
         return return_issue_numbers(url)
 
@@ -110,7 +110,7 @@ def test_if_link_works(url):
 
     try:
         response = requests.get(url)
-    except:
+    except Exception:
         return False
     else:
         if response.status_code != requests.codes.ok:
