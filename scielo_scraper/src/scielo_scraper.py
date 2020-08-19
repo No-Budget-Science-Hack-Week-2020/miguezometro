@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-
+import re
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup as bsoup
+from collections import defaultdict
 
 
 def parse_page(url):
@@ -23,18 +24,29 @@ def return_issue_numbers(url):
 
         journal_issue_table = parse_page(url)
 
-        anchors = journal_issue_table.select_one(
+        issue_table = journal_issue_table.select(
             ".content > table:nth-child(3) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > table:nth-child(2)"
-        ).select("a[href]")
+        )[0]
 
     except Exception:
         raise Exception(f"Não consegui raspar o journal {url}!")
 
     else:
 
-        issues_links = [a["href"] for a in anchors]
+        parsed = defaultdict(list)
 
-        return issues_links
+        # Iterando sobre cada linha da tabela de edições e retornando um dicionário no formato
+        # "Ano": "links para as edições desse ano"
+
+        for tr in issue_table.select("tr")[1:]:
+
+            years_html = tr.find_all("b", string=re.compile("^\d{4}$"))
+            years = [year.text for year in years_html]
+            links = [a["href"] for a in tr.find_all("a", href=True)]
+            if years[0].startswith("20"):
+                parsed[years[0]].extend(links)
+
+        return parsed
 
 
 def get_oldest_issue(id):
@@ -64,7 +76,9 @@ def get_all_articles_from_issue(issue_url):
     pode ser útil para análises posteriores.
     """
 
-    issue_page_parsed = parse_page(issue_url).find_all("a", string="text in  English")
+    issue_page_parsed = parse_page(issue_url).find_all(
+        "a", string=re.compile("text.*(English|Inglês)")
+    )
 
     article_links = [a["href"] for a in issue_page_parsed]
 

@@ -2,6 +2,7 @@
 
 """Script que contém o procedimento completo para detectar links quebrados"""
 
+# Esse script não está funcionando -> Em manutenção enquanto resolvemos o cutoff de ano
 # %%
 from scielo_scraper import (
     get_oldest_issue,
@@ -45,3 +46,11 @@ for journal in set(full_dataframe_brjournals["journal"]):
     ].copy()
 
     journal_df.to_csv(f"../data/divided_by_journal/{journal}_info.csv", index=False)
+
+# %%
+# Vendo quais não consegui raspar
+
+original = set(so_br["identificador"].to_list())
+scraped = set(full_dataframe_brjournals["journal"].to_list())
+
+remaining = original - scraped
