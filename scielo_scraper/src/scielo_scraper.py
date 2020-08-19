@@ -77,7 +77,7 @@ def get_all_articles_from_issue(issue_url):
     """
 
     issue_page_parsed = parse_page(issue_url).find_all(
-        "a", string=re.compile("text.*(English|Inglês)")
+        "a", string=re.compile("text in.*")
     )
 
     article_links = [a["href"] for a in issue_page_parsed]

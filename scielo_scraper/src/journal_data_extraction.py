@@ -2,7 +2,6 @@
 
 """Script que contém o procedimento completo para detectar links quebrados"""
 
-# Esse script não está funcionando -> Em manutenção enquanto resolvemos o cutoff de ano
 # %%
 from scielo_scraper import (
     get_oldest_issue,
@@ -18,13 +17,27 @@ journals_list = pd.read_csv("../data/journals_cienciabio.csv", index_col=0)
 # %%
 # Filtrando apenas os journals brasileiros
 so_br = journals_list[journals_list["revista brasileira?"] == "sim"].copy()
+
+# %%
+def check_if_journal_has_2010(dict_journals):
+    try:
+        issue_2010 = dict_journals["2010"][0]
+    except:
+        last_key = list(dict.keys())[-1]
+        oldest_issue = dict_journals[last_key]
+        return oldest_issue
+    else:
+        return issue_2010
+
+
 # %%
 # Para cada journal na lista, extraímos os dados
 df_list = []
 for identificador in so_br["identificador"]:
 
     try:
-        oldest_issue = get_oldest_issue(str(identificador))[-1]
+        all_issues = get_oldest_issue(str(identificador))
+        oldest_issue = check_if_journal_has_2010(all_issues)
         artigos = get_all_articles_from_issue(oldest_issue)
         df = extract_links(artigos)
         df["journal"] = identificador
@@ -54,3 +67,4 @@ original = set(so_br["identificador"].to_list())
 scraped = set(full_dataframe_brjournals["journal"].to_list())
 
 remaining = original - scraped
+
