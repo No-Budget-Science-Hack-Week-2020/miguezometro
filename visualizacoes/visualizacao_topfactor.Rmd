@@ -1,0 +1,59 @@
+---
+title: "Visualização do scoring do Top Factor"
+author: "João Vitor"
+date: "20/08/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+theme_set(theme_bw(base_family = "Roboto"))
+```
+
+## Pré-processamento
+
+```{r leitura-inicial}
+topfactor <- read_csv("data/topfactor_sheet1.csv")
+
+de_interesse <- topfactor %>% 
+  filter(Journal != "TransFormaçÃµes em Psicologia (Online)") %>% # Não foi feito o scoring 
+  select(-c(person_responsible, `Society Affiliation (optional)`, `URL to author guidelines or policy`, Total)) %>% 
+  select(-contains("Justification"))
+
+de_interesse <- de_interesse %>% 
+  setNames(str_trim(str_remove(colnames(de_interesse), 
+             pattern = "\\(0 to 3\\)")))
+```
+
+```{r reshaping}
+longo <- de_interesse %>%
+  pivot_longer(-c(Journal, Publisher), names_to = "Critério", values_to = "Score") %>% 
+  mutate(Critério = case_when(
+    Critério == "Registered Reports - Does the journal publish Registered Reports or take other steps to address publication bias?" ~ "Registered Reports-Publication Bias",
+    Critério == "Registered Reports - Does the journal issue Open Science Badges?" ~ "Registered Reports-Badges",
+    TRUE ~ Critério
+  )) %>% 
+  mutate(Critério = str_trunc(Critério, width = 40),
+         Journal = str_trunc(Journal, width = 30),
+         Score = as.integer(Score))
+```
+
+# Visualização
+
+```{r plot}
+longo %>% 
+  ggplot(aes(x=Journal, y=Critério, size=Score, colour=Score)) +
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  guides(colour=FALSE) +
+  labs(x = NULL , y = "Critério Top Factor")
+
+longo %>% 
+  ggplot(aes(x=Journal, y=Critério, fill=Score)) +
+  geom_tile() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  guides(colour=FALSE) +
+  labs(x = NULL , y = "Critério Top Factor")
+```
+
