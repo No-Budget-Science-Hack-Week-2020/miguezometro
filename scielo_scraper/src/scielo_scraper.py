@@ -15,7 +15,7 @@ def parse_page(url):
 
 
 def return_issue_numbers(url):
-    """Retorna o link da edição mais antiga de um journal presente no scielo a partir de uma url"""
+    """Retorna, a partir de um url, um dicionário das edições de um periódico no scielo, separados por ano de publicação"""
 
     # CSS Path da tabela das edições:
     # .content > table:nth-child(3) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > table:nth-child(2)
@@ -49,8 +49,8 @@ def return_issue_numbers(url):
         return parsed
 
 
-def get_oldest_issue(id):
-    """Retorna o link da edição mais antiga de um journal presente no scielo a partir do id do journal.
+def get_issue_dictionary(id):
+    """Retorna, a partir de um ISSN, um dicionário das edições de um periódico no scielo, separados por ano de publicação
 
     Essa ainda é a função mais propensa ao erro - visto que, por alguma razão, 
     o scielo possui mais de um domínio. Estou ajustando várias coisas."""

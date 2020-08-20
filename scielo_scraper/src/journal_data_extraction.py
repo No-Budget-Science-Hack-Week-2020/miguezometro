@@ -4,7 +4,7 @@
 
 # %%
 from scielo_scraper import (
-    get_oldest_issue,
+    get_issue_dictionary,
     get_all_articles_from_issue,
     extract_links,
 )
@@ -19,7 +19,7 @@ journals_list = pd.read_csv("../data/journals_cienciabio.csv", index_col=0)
 so_br = journals_list[journals_list["revista brasileira?"] == "sim"].copy()
 
 # %%
-def check_if_journal_has_2010(dict_journals):
+def return_2010_or_oldest(dict_journals):
     try:
         issue_2010 = dict_journals["2010"][0]
     except:
@@ -36,8 +36,10 @@ df_list = []
 for identificador in so_br["identificador"]:
 
     try:
-        all_issues = get_oldest_issue(str(identificador))
-        oldest_issue = check_if_journal_has_2010(all_issues)
+        all_issues = get_issue_dictionary(str(identificador))
+
+        # Pega edição de 2010 ou, caso não haja, a mais antiga
+        oldest_issue = return_2010_or_oldest(all_issues)
         artigos = get_all_articles_from_issue(oldest_issue)
         df = extract_links(artigos)
         df["journal"] = identificador
