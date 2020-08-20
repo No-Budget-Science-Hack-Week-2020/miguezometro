@@ -24,3 +24,5 @@ Uma extensão "detectora de migués" em páginas da web. No momento a ferramenta
 
 - [ ] Analisar a divisão de revistas em ciências da vida do Scielo quanto à presença de links quebrados em periódicos indexados.
 - [ ] Disponibilizar visualisação da análise de links quebrados.
+
+Assim que soubermos pra onde vamos você será o primeiro a saber!
