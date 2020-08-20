@@ -1,3 +1,9 @@
+# SciELO scraper
+
+Uma coleção de códigos em Python que extraem conteúdo de artigos indexados no SciELO, 
+no sentido de realizar uma análise de *link rotting* nos links encontrados. 
+
+
 # Reproduzindo a extração de dados
 
 * Clone o repositório
