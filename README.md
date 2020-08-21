@@ -8,6 +8,16 @@ Então veio ao lugar certo!
 
 Nosso plano é mapear a presença de dados pseudoabertos na literatura.
 
+* Licenças
+
+  * Nosso código: 
+
+    [![license](https://img.shields.io/badge/license-BSD%202--Clause-green)](https://github.com/gabriellovate/miguezometro/blob/master/LICENSE)
+
+  * Nossos dados, nossas imagens e nossos textos: 
+
+    [![license](https://i.creativecommons.org/l/by/4.0/80x15.png)](http://creativecommons.org/licenses/by/4.0/)
+
 ## De onde surgiu o Miguezômetro?
 O projeto surgiu durante a No-budget Science Hack Week 2020 (que na verdade foi uma quinzena e não uma semana).
 
@@ -21,8 +31,5 @@ No momento esse módulo/subrepositório centraliza scripts voltados para a extra
 Uma extensão "detectora de migués" em páginas da web. No momento a ferramenta detecta algumas palavras chaves relacionadas à disponibilização de dados de forma pseudoaberta, por exemplo o termo "available upon reasonable request".
 
 ## Planos para o futuro
-
-- [ ] Analisar a divisão de revistas em ciências da vida do Scielo quanto à presença de links quebrados em periódicos indexados.
-- [ ] Disponibilizar visualisação da análise de links quebrados.
 
 Assim que soubermos pra onde vamos você será o primeiro a saber!
