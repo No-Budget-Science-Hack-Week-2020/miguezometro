@@ -42,7 +42,7 @@ longo <- de_interesse %>%
 # Visualização
 
 ```{r plot}
-longo %>% 
+bubble_plot <- longo %>% 
   ggplot(aes(x=Journal, y=Critério, size=Score, colour=Score)) +
   geom_point() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
@@ -55,5 +55,9 @@ longo %>%
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
   guides(colour=FALSE) +
   labs(x = NULL , y = "Critério Top Factor")
+```
+
+```{r salvando-plot}
+ggsave("plots/criterios_topfactor.png", bubble_plot, width = 10)
 ```
 

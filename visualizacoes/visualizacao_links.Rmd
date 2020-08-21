@@ -1,0 +1,75 @@
+---
+title: "Visualização dos links quebrados"
+author: "João Vitor"
+date: "21/08/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+theme_set(theme_bw(base_family = "Roboto"))
+```
+
+```{r utilities, include=FALSE}
+percent_of_total <- function(df1, df2){
+  nrow(df1) / nrow(df2)
+}
+```
+
+## Pré-processamento
+
+```{r loading}
+lista_de_journalsbr <- read_csv("../scielo_scraper/data/journals_cienciabio.csv") %>% 
+  select(c(`periódicos`, publicador, identificador))
+
+csv_files <- list.files(path="data/journallinks_testados", pattern="*.csv", full.names=TRUE)
+
+journal_links <- lapply(csv_files, read_csv) %>% 
+  bind_rows() %>% 
+  left_join(lista_de_journalsbr, by = c("journal" = "identificador"))
+```
+
+```{r quantidade-geral}
+funciona <- journal_links %>% 
+  filter(link_funciona == TRUE)
+
+nao_funciona <- journal_links %>% 
+  filter(link_funciona == FALSE)
+```
+
+```{r agrupando-por-journal}
+quebrado_por_journal <- nao_funciona %>% 
+  group_by(journal) %>% 
+  add_count() %>% 
+  ungroup() %>% 
+  mutate(perc = n/sum(n),
+         journal_curto = str_trunc(`periódicos`, width = 30))
+```
+
+# Plots
+
+```{r plot-inicial}
+plot_geral <- tibble(perc = c(percent_of_total(funciona, journal_links), percent_of_total(nao_funciona, journal_links)),
+       categoria = c("Funciona", "Não funciona")) %>% 
+  ggplot(aes(x=perc, y=categoria)) +
+  geom_col() +
+  scale_x_continuous(labels = scales::percent) +
+  labs(x=NULL, y=NULL, title="Visão geral sobre os links testados")
+```
+
+```{r plot_por_journal}
+plot_por_journal <- quebrado_por_journal %>% 
+  ggplot(aes(x=perc, y=reorder(journal_curto, -perc), fill=journal_curto)) +
+  geom_col() +
+  guides(fill=FALSE) +
+  labs(x="% do total de links quebrados", y=NULL) +
+  scale_x_continuous(labels = scales::percent)
+  scale_fill_viridis_c()
+```
+
+```{r salvando-plots}
+ggsave("plots/links_plot_geral.png", plot_geral)
+ggsave("plots/links_por_journal.png", plot_por_journal, width=7)
+```
+
