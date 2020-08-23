@@ -22,7 +22,7 @@ Nosso plano é mapear a presença de dados pseudoabertos na literatura.
 Acesse [nossa Wiki](https://github.com/gabriellovate/miguezometro/wiki)
 
 ## De onde surgiu o Miguezômetro?
-O projeto surgiu durante a No-budget Science Hack Week 2020 (que na verdade foi uma quinzena e não uma semana).
+O projeto surgiu durante a [No-budget Science Hack Week 2020](https://www.reprodutibilidade.bio.br/hack-week-2020) (que na verdade foi uma quinzena e não uma semana).
 
 ## Onde estamos agora?
 Até o momento temos alguns protótipos de ferramentas para avaliar a literatura científica quanto à presença do que chamamos de dados pseudoabertos.
