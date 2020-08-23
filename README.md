@@ -36,3 +36,5 @@ Uma extensão "detectora de migués" em páginas da web. No momento a ferramenta
 ## Planos para o futuro
 
 Assim que soubermos pra onde vamos você será o primeiro a saber!
+
+Testando uma edição
