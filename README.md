@@ -36,3 +36,5 @@ Uma extensão "detectora de migués" em páginas da web. No momento a ferramenta
 ## Planos para o futuro
 
 Assim que soubermos pra onde vamos você será o primeiro a saber!
+
+Mas dá uma olhada na [nossa wiki](https://github.com/No-Budget-Science-Hack-Week-2020/miguezometro/wiki#perspectivas-futuras) se você quer um norte...
