@@ -30,7 +30,7 @@ Até o momento temos alguns protótipos de ferramentas para avaliar a literatura
 #### [Scielo Scraper](https://github.com/gabriellovate/miguezometro/tree/master/scielo_scraper)
 No momento esse módulo/subrepositório centraliza scripts voltados para a extração de textos de periódicos do Scielo e detecção de links quebrados nos respectivos textos.
 
-#### [Migué-detector](https://github.com/jvfe/migue-detector/tree/e88fd150bc7e66ce092468b0627f09e77474bee6)
+#### [Migué-detector](https://github.com/jvfe/migue-detector)
 Uma extensão "detectora de migués" em páginas da web. No momento a ferramenta detecta algumas palavras chaves relacionadas à disponibilização de dados de forma pseudoaberta, por exemplo o termo "available upon reasonable request".
 
 ## Planos para o futuro
