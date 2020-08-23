@@ -8,7 +8,7 @@ no sentido de realizar uma análise de *link rotting* nos links encontrados.
 
 * Clone o repositório
 
-```git clone https://github.com/gabriellovate/miguezometro```
+```git clone --recurse-submodules https://github.com/gabriellovate/miguezometro```
 
 * Entre no diretório
 
