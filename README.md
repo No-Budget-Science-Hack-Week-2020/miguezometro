@@ -33,5 +33,8 @@ No momento esse módulo/subrepositório centraliza scripts voltados para a extra
 #### [Migué-detector](https://github.com/jvfe/migue-detector)
 Uma extensão "detectora de migués" em páginas da web. No momento a ferramenta detecta algumas palavras chaves relacionadas à disponibilização de dados de forma pseudoaberta, por exemplo o termo "available upon reasonable request".
 
+## Quer contribuir?
+Olha [nosso guia de contribuições](https://github.com/No-Budget-Science-Hack-Week-2020/miguezometro/blob/master/CONTRIBUTING.md).
+
 ## Planos para o futuro
 Dá uma olhada na [nossa wiki](https://github.com/No-Budget-Science-Hack-Week-2020/miguezometro/wiki#perspectivas-futuras) se você quer um norte...
