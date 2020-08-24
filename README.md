@@ -34,7 +34,4 @@ No momento esse módulo/subrepositório centraliza scripts voltados para a extra
 Uma extensão "detectora de migués" em páginas da web. No momento a ferramenta detecta algumas palavras chaves relacionadas à disponibilização de dados de forma pseudoaberta, por exemplo o termo "available upon reasonable request".
 
 ## Planos para o futuro
-
-Assim que soubermos pra onde vamos você será o primeiro a saber!
-
-Mas dá uma olhada na [nossa wiki](https://github.com/No-Budget-Science-Hack-Week-2020/miguezometro/wiki#perspectivas-futuras) se você quer um norte...
+Dá uma olhada na [nossa wiki](https://github.com/No-Budget-Science-Hack-Week-2020/miguezometro/wiki#perspectivas-futuras) se você quer um norte...
